@@ -17,23 +17,83 @@ import sqlite3
 class Ui_FreshLib(object):
 
 
+########################################################################################################################
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ########################################################################################################################
 # Functions to to initially load data into tables. Gets data from tables within the_Attempt.db.
 
+    def loadUserData(self):
+        #Connects To .db
+        connection = sqlite3.connect('attempt1.db')
+        query = "SELECT * FROM userDB"
+        result = connection.execute(query)
 
+        #Prints in User TableWidget
+        self.UserTable.setRowCount(0)
+        for row_number, row_data in enumerate(result):
+            self.UserTable.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.UserTable.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
 
+        connection.close()
 
+        #Function is called at end of SetupUI
 
+    def loadBookData(self):
+        #Connects To .db
+        connection = sqlite3.connect('attempt1.db')
+        query = "SELECT * FROM bookDB"
+        result = connection.execute(query)
 
+        #Prints in User TableWidget
+        self.BookTable.setRowCount(0)
+        for row_number, row_data in enumerate(result):
+            self.BookTable.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.BookTable.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
 
+        connection.close()
 
+        #Function is called at end of SetupUI
 
+    def loadCheckData(self):
+        #Connects To .db
+        connection = sqlite3.connect('attempt1.db')
+        query = "SELECT * FROM bookDB"
+        result = connection.execute(query)
+
+        #Prints in User TableWidget
+        self.CheckTable.setRowCount(0)
+        for row_number, row_data in enumerate(result):
+            self.CheckTable.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.CheckTable.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+
+        connection.close()
+
+        #Function is called at end of SetupUI
 
 
 
 ########################################################################################################################
 # Functions to create multiple windows
+
     def openUserWindow(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_CreateNewUser()
@@ -47,10 +107,9 @@ class Ui_FreshLib(object):
         self.window.show()
 
 
-
-
 ########################################################################################################################
-# UI Function. Builds the GUI. Contains references to buttons.
+# UI Function. Builds the GUI. Contains references to buttons. Calls other functions.
+
     def setupUi(self, FreshLib):
         FreshLib.setObjectName("FreshLib")
         FreshLib.resize(1125, 736)
@@ -697,6 +756,9 @@ class Ui_FreshLib(object):
         self.actionBook_Count.setText(_translate("FreshLib", "Book Count"))
         self.actionCheckout_Count.setText(_translate("FreshLib", "Checkout Count"))
 
+        self.loadUserData()
+        self.loadBookData()
+        self.loadCheckData()
 
 if __name__ == "__main__":
     import sys
