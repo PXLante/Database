@@ -82,6 +82,9 @@ class Ui_CreateNewUser(object):
         self.horizontalLayout.addWidget(self.SaveUser)
         self.QuitUser = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.QuitUser.setObjectName("QuitUser")
+
+        self.QuitUser.clicked.connect(CreateNewUser.hide)
+
         self.horizontalLayout.addWidget(self.QuitUser)
         CreateNewUser.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(CreateNewUser)

@@ -9,11 +9,25 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from CreateAUser import Ui_CreateNewUser
-
+from CreateABook import Ui_CreateNewBook
+import sqlite3
 
 
 
 class Ui_FreshLib(object):
+
+
+
+########################################################################################################################
+# Functions to to initially load data into tables. Gets data from tables within the_Attempt.db.
+
+
+
+
+
+
+
+
 
 
 
@@ -23,6 +37,12 @@ class Ui_FreshLib(object):
     def openUserWindow(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_CreateNewUser()
+        self.ui.setupUi(self.window)
+        self.window.show()
+
+    def openBookWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CreateNewBook()
         self.ui.setupUi(self.window)
         self.window.show()
 
@@ -234,6 +254,9 @@ class Ui_FreshLib(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.AddBookBtn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.AddBookBtn.setObjectName("AddBookBtn")
+
+        self.AddBookBtn.clicked.connect(self.openBookWindow)
+
         self.horizontalLayout_3.addWidget(self.AddBookBtn)
         self.RemoveBookBtn = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.RemoveBookBtn.setObjectName("RemoveBookBtn")
