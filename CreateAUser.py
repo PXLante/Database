@@ -7,9 +7,71 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sqlite3
+import time
+import datetime
+import random
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib import style
+style.use('fivethirtyeight')
+
+
+
+
 
 class Ui_CreateNewUser(object):
 
+
+
+########################################################################################################################
+# Functions for inserting values into .db tables
+
+    def addUsers(self):
+        conn = sqlite3.connect('attempt1.db')
+        c = conn.cursor()
+
+
+        theName = self.NamelineEdit.text()
+        theType = str(self.TypeScroller.currentText())
+        theGrade = self.AgeLineEdit.text()
+        theEmail = self.EmailLineEdit.text()
+        thePhone = self.PhoneLineEdit.text()
+
+        ##############################################
+        #testing if valid inputs were used
+
+        if (theName == "" or theType == "" or theGrade == "" or theEmail == ""):
+            print('Oh no!')
+            # msg = QMessageBox()
+            # msg.setIcon(QMessageBox.Critical)
+            # msg.setText("Error")
+            # msg.setInformativeText('e')
+            # msg.setWindowTitle("Error")
+            # msg.exec_()
+
+        else:
+            c.execute("INSERT INTO userDB (name, type, grade, email) VALUES (?, ?, ?, ?)",
+                    (theName, theType, theGrade, theEmail))
+            conn.commit()
+            c.close()
+            conn.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################################################################################################
+# UI Function. Builds the GUI. Contains references to buttons. Calls other functions.
 
     def setupUi(self, CreateNewUser):
         CreateNewUser.setObjectName("CreateNewUser")
@@ -22,6 +84,8 @@ class Ui_CreateNewUser(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.CreateUsertext.sizePolicy().hasHeightForWidth())
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("C:/Users/Kevin/Desktop/getEatz Logos/favicon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.CreateUsertext.setSizePolicy(sizePolicy)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(117, 175, 13))
@@ -79,6 +143,10 @@ class Ui_CreateNewUser(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.SaveUser = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.SaveUser.setObjectName("SaveUser")
+
+        self.SaveUser.clicked.connect(self.addUsers)
+        self.SaveUser.clicked.connect(CreateNewUser.hide)
+
         self.horizontalLayout.addWidget(self.SaveUser)
         self.QuitUser = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.QuitUser.setObjectName("QuitUser")
@@ -122,3 +190,6 @@ if __name__ == "__main__":
     CreateNewUser.show()
     sys.exit(app.exec_())
 
+
+
+from LibrarySoftware4 import Ui_FreshLib

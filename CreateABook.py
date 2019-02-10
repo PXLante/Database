@@ -7,8 +7,52 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sqlite3
+import time
+import datetime
+import random
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib import style
+style.use('fivethirtyeight')
+
+
+
 
 class Ui_CreateNewBook(object):
+
+
+
+
+########################################################################################################################
+# Functions for inserting values into .db tables
+
+    def addBook(self):
+        conn = sqlite3.connect('attempt1.db')
+        c = conn.cursor()
+
+
+        theBook = self.BooklineEdit.text()
+        theAuthor = self.AuthorLineEdit.text()
+        theGenre = str(self.GenreScroller.currentText())
+        theISBN = self.ISBNLineEdit.text()
+
+
+        c.execute("INSERT INTO bookDB (book, author, genre, ISBN) VALUES (?, ?, ?, ?)",
+                   (theBook, theAuthor, theGenre, theISBN))
+        conn.commit()
+        c.close()
+        conn.close()
+
+
+
+
+
+
+
+########################################################################################################################
+# UI Function. Builds the GUI. Contains references to buttons. Calls other functions.
+
     def setupUi(self, CreateNewBook):
         CreateNewBook.setObjectName("CreateNewBook")
         CreateNewBook.resize(628, 442)
@@ -48,6 +92,10 @@ class Ui_CreateNewBook(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.SaveBook = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.SaveBook.setObjectName("SaveBook")
+
+        self.SaveBook.clicked.connect(self.addBook)
+        self.SaveBook.clicked.connect(CreateNewBook.hide)
+
         self.horizontalLayout.addWidget(self.SaveBook)
         self.QuitBook = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.QuitBook.setObjectName("QuitBook")
